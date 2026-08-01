@@ -1,0 +1,4 @@
+openai>=1.40
+datasets>=2.19
+huggingface-hub>=0.23
+python-dotenv>=1.0
