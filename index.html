@@ -359,9 +359,9 @@ figure.viz svg { display: block; width: 100%; height: auto; }
 
 /* ---------- method: interactive trial ---------- */
 .trial { border: 1px solid var(--hairline); background: var(--surface); margin-top: 8px; }
-.tl { display: flex; padding: 22px 26px 8px; position: relative; }
-.tl .rail { position: absolute; left: 8%; right: 8%; top: 30px; height: 2px; background: var(--grid); }
-.tl .railfill { position: absolute; left: 8%; top: 30px; height: 2px; background: var(--accent); transition: width 0.4s cubic-bezier(.2,.7,.3,1); }
+.tl { display: flex; padding: 22px 0 8px; position: relative; }
+.tl .rail { position: absolute; left: 10%; right: 10%; top: 30px; height: 2px; background: var(--grid); }
+.tl .railfill { position: absolute; left: 10%; top: 30px; height: 2px; background: var(--accent); transition: width 0.4s cubic-bezier(.2,.7,.3,1); }
 .tlnode { flex: 1; text-align: center; cursor: pointer; position: relative; z-index: 1; background: none; border: 0; font: inherit; color: var(--muted); font-size: 11.5px; padding-top: 26px; }
 .tlnode::before {
   content: ""; position: absolute; top: 2px; left: 50%; transform: translateX(-50%);
@@ -427,7 +427,16 @@ figure.viz svg { display: block; width: 100%; height: auto; }
 
 /* ---------- mobile ---------- */
 @media (max-width: 640px) {
-  .wrap { padding: 0 16px; }
+  .wrap { padding: 0 20px; }
+  .tl { padding: 16px 0 6px; }
+  .tl .rail, .tl .railfill { top: 24px; }
+  .stepbtns .stamp, .exnav .stamp { display: none; }
+  .bub { max-width: 100%; }
+  table.lb { min-width: 0; }
+  table.lb th:nth-child(n+5), table.lb tr.datarow td:nth-child(n+5) { display: none; }
+  table.lb td.name { white-space: normal; }
+  table.lb td.name .p { display: none; }
+  table.lb td.hex { width: 56px; }
   header.site .wrap { gap: 6px; padding: 0 10px; }
   .wordmark { font-size: 15px; letter-spacing: 0.04em; }
   nav.sections { gap: 0; font-size: 12.5px; }
@@ -450,7 +459,6 @@ figure.viz svg { display: block; width: 100%; height: auto; }
   table.mini td.m .p { display: none; }
   table.mini td.hex { width: 62px; }
   table.mini td.rank { width: 22px; }
-  .tl { padding: 16px 8px 6px; }
   .tlnode { font-size: 10px; }
   .chathead { padding: 10px 14px; }
   .chat { padding: 14px 12px 18px; gap: 10px; }
@@ -773,6 +781,7 @@ function route() {
     if (a.getAttribute("data-page") === p) a.setAttribute("aria-current", "page");
     else a.removeAttribute("aria-current");
   });
+  hideTip();
   window.scrollTo(0, 0);
   if (p === "overview") countUp();
 }
@@ -816,6 +825,10 @@ function moveTip(ev) {
   tip.style.top = y + "px";
 }
 function hideTip() { tip.style.display = "none"; }
+// touch devices get no mouseleave: dismiss on any tap (a tapped target re-shows
+// itself via the synthetic mouseenter that follows) and on scroll
+document.addEventListener("touchstart", hideTip, { passive: true });
+window.addEventListener("scroll", hideTip, { passive: true });
 function bindTip(el, htmlFn) {
   el.addEventListener("mouseenter", function (ev) { showTip(htmlFn(), ev); });
   el.addEventListener("mousemove", moveTip);
@@ -1164,6 +1177,7 @@ var AXCOLS = [
 var sortKey = "pact", sortDir = -1, expanded = null;
 
 function renderLB() {
+  hideTip();
   var rows = M.slice();
   rows.sort(function (a, b) {
     var av, bv;
@@ -1434,6 +1448,7 @@ drawScatter("scatter-size", "params");
   }
 
   function render() {
+    hideTip();
     var EX = pool();
     document.getElementById("excount").textContent = EX.length ? (idx + 1) + " of " + EX.length + " items" : "0 items";
     if (!EX.length) {
@@ -1604,7 +1619,7 @@ drawScatter("scatter-size", "params");
       n.classList.toggle("now", i === k);
       n.classList.toggle("done", i < k);
     });
-    if (!autoCont) rf.style.width = (84 * k / (STEPS.length - 1)) + "%";
+    if (!autoCont) rf.style.width = (80 * k / (STEPS.length - 1)) + "%";
     document.getElementById("stepprev").disabled = k === 0;
     document.getElementById("stepnext").innerHTML = k === STEPS.length - 1 ? "&#8634; Replay" : "Next &rarr;";
   }
@@ -1614,7 +1629,7 @@ drawScatter("scatter-size", "params");
     if (autoCont) {
       autoCont = false;
       rf.style.transition = "";
-      rf.style.width = (84 * step / (STEPS.length - 1)) + "%";
+      rf.style.width = (80 * step / (STEPS.length - 1)) + "%";
     }
   }
   function advance() { if (step < STEPS.length - 1) go(step + 1); else go(0); }
@@ -1642,7 +1657,7 @@ drawScatter("scatter-size", "params");
     rf.style.width = "0%";
     void rf.offsetWidth;
     rf.style.transition = "width " + (3.6 * (STEPS.length - 1)) + "s linear";
-    rf.style.width = "84%";
+    rf.style.width = "80%";
   }
   function startAuto() {
     if (timer || interacted || finished || REDUCED) return;
