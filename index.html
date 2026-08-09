@@ -141,7 +141,7 @@ header.site {
   border-bottom: 1px solid var(--hairline);
 }
 header.site .wrap { display: flex; align-items: center; gap: 22px; height: 58px; }
-.wordmark { font-weight: 800; letter-spacing: 0.06em; font-size: 17px; color: var(--ink); }
+.wordmark { font-weight: 800; letter-spacing: 0.06em; font-size: 17px; color: var(--accent-ink); }
 nav.sections { display: flex; gap: 4px; font-size: 13.5px; }
 nav.sections a { color: var(--ink-2); padding: 6px 12px; border-radius: 999px; }
 nav.sections a:hover { color: var(--ink); text-decoration: none; background: var(--wash); }
@@ -1336,7 +1336,7 @@ function drawScatter(boxId, mode) {
   };
   if (MOB) {
     LAB = mode === "date"
-      ? { "moonshotai/Kimi-K2.7-Code": [-9, -6], "mistral-7b-instruct": [9, -8], "llama-3.1-8b-instruct": [9, 10], "nvidia/Nemotron-120B-A12B": [9, 3] }
+      ? { "moonshotai/Kimi-K2.7-Code": [-9, -6], "mistral-7b-instruct": [9, -8], "llama-3.1-8b-instruct": [9, 10], "nvidia/Nemotron-120B-A12B": [-9, 3] }
       : { "moonshotai/Kimi-K2.7-Code": [-9, -8], "mistral-7b-instruct": [9, -8], "llama-3.1-8b-instruct": [9, 12], "nvidia/Nemotron-120B-A12B": [9, 3] };
   }
 
