@@ -22,9 +22,9 @@
   --wash: #eef2f6;
   --hold: #0a7a0a;
   --break: #c03a3a;
-  --chip-open: #2a78d6;
+  --chip-open: #1f5fc2;
   --chip-closed: #eb6834;
-  --dot-pressed: #1c5cab;
+  --dot-pressed: #1f5fc2;
   --grid: #e7eaee;
 }
 @media (prefers-color-scheme: dark) {
@@ -42,9 +42,9 @@
     --wash: #1b2026;
     --hold: #35b435;
     --break: #e06666;
-    --chip-open: #3987e5;
+    --chip-open: #62a0f0;
     --chip-closed: #d95926;
-    --dot-pressed: #9ec5f4;
+    --dot-pressed: #62a0f0;
     --grid: #23282e;
   }
 }
@@ -62,9 +62,9 @@
   --wash: #1b2026;
   --hold: #35b435;
   --break: #e06666;
-  --chip-open: #3987e5;
+  --chip-open: #62a0f0;
   --chip-closed: #d95926;
-  --dot-pressed: #9ec5f4;
+  --dot-pressed: #62a0f0;
   --grid: #23282e;
 }
 :root[data-theme="light"] {
@@ -81,9 +81,9 @@
   --wash: #eef2f6;
   --hold: #0a7a0a;
   --break: #c03a3a;
-  --chip-open: #2a78d6;
+  --chip-open: #1f5fc2;
   --chip-closed: #eb6834;
-  --dot-pressed: #1c5cab;
+  --dot-pressed: #1f5fc2;
   --grid: #e7eaee;
 }
 
@@ -223,6 +223,7 @@ table.mini tr.gorow:hover td { background: var(--wash); }
 /* ---------- sections ---------- */
 section { padding: 34px 0 26px; }
 section > .wrap > h2, .pagehead h2 { font-size: 24px; letter-spacing: -0.015em; margin-bottom: 8px; }
+.pagehead h1, section > .wrap > h2, .ovlb .hd h2, footer.site h2 { color: var(--accent-ink); }
 .sec-intro { color: var(--ink-2); max-width: 86ch; margin-bottom: 24px; font-size: 15.5px; }
 .stamp { font-size: 11.5px; color: var(--muted); letter-spacing: 0.03em; }
 
@@ -259,8 +260,8 @@ tr.detail td { background: var(--wash); padding: 20px 18px 22px; text-align: lef
 
 /* radar */
 .radarbox svg { max-width: 100%; height: auto; }
-.radarpoly { fill: color-mix(in srgb, var(--accent) 22%, transparent); stroke: var(--accent); stroke-width: 1.6; stroke-linejoin: round; }
-.radarpoly.sm { fill: color-mix(in srgb, var(--accent) 36%, transparent); stroke-width: 1.3; }
+.radarpoly { fill: color-mix(in srgb, var(--accent) 32%, transparent); stroke: var(--accent-ink); stroke-width: 1.8; stroke-linejoin: round; }
+.radarpoly.sm { fill: color-mix(in srgb, var(--accent) 48%, transparent); stroke-width: 1.4; }
 .avgpoly { fill: color-mix(in srgb, var(--ink) 7%, transparent); stroke: var(--hairline-strong); stroke-width: 1.2; stroke-linejoin: round; }
 .hexring { fill: none; stroke: var(--grid); }
 .hexring.sm { stroke: var(--hairline-strong); stroke-width: 1.2; }
@@ -658,7 +659,7 @@ pre.bibtex {
           <div id="paritychart"></div>
         </figure>
         <figure class="viz rv">
-          <figcaption>Which pressures work best</figcaption>
+          <figcaption>Which pressures are most dangerous</figcaption>
           <div class="sub">Share of requests where models break the rule, by pressure family, across all 22 models. Hover a row for what the pressure says.</div>
           <div id="pressurechart"></div>
         </figure>
@@ -712,8 +713,9 @@ pre.bibtex {
       <a class="btn" href="mailto:mokamoto7@gatech.edu" data-ico="mail">Contact</a>
     </div>
     <p class="footnote">
-      By Mika Okamoto (Georgia Tech, Decagon AI) and Ansel Kaplan Erol (Georgia Tech, Baseten).
-      Open-weights inference provided by Baseten AI Labs.
+      By <a href="https://mika-okamoto.github.io">Mika Okamoto</a> (Georgia Tech, Decagon AI) and
+      <a href="https://ansel.fyi">Ansel Kaplan Erol</a> (Georgia Tech, Baseten).
+      Open-weights inference provided by <a href="https://www.baseten.co">Baseten</a> AI Labs.
     </p>
   </div>
 </footer>
@@ -869,17 +871,24 @@ var PDESC = {
   responsibility_shift: "The user puts it in writing that the decision and its consequences are theirs, not the model's.",
   rule_delegitimization: "The user argues the rule itself is outdated or does not really apply here."
 };
-/* plain-language glosses for domain names that read as jargon */
-var DOMDESC = {
-  "AML / KYC": "Bank anti-money-laundering rules: flagged transactions must be verified and reported, not waved through. KYC means know your customer.",
-  "AML": "Bank anti-money-laundering rules: flagged transactions must be verified and reported, not waved through.",
-  "Export controls": "US rules on which technology may be shipped or disclosed to which countries.",
-  "Export Controls": "US rules on which technology may be shipped or disclosed to which countries.",
-  "Healthcare admin (HIPAA)": "HIPAA is the US law protecting patient medical records.",
-  "Healthcare": "HIPAA, the US law protecting patient medical records.",
-  "Pharma medical information": "What drug makers may and may not claim about their products.",
-  "Pharma": "What drug makers may and may not claim about their products."
-};
+/* plain-language glosses for every domain, keyed by both the panel label and the examples name */
+var DOMDESC = {};
+[
+  [["AML / KYC", "AML"], "Bank anti-money-laundering rules: flagged transactions must be verified and reported, not waved through. KYC means know your customer."],
+  [["Export controls", "Export Controls"], "US rules on which technology may be shipped or disclosed to which countries."],
+  [["Healthcare admin (HIPAA)", "Healthcare"], "HIPAA, the US law protecting patient medical records."],
+  [["Pharma medical information", "Pharma"], "What drug makers may and may not claim about their products."],
+  [["Advertising"], "FTC truth-in-advertising rules: claims need evidence on file, and paid posts need disclosure."],
+  [["Customer service", "Customer Service"], "Consumer-protection rules at the support desk: refund rights, dispute rights, honoring published prices."],
+  [["Finance"], "Accounting and expense controls: revenue in the right period, approvals before money moves."],
+  [["Government services", "Gov. Services"], "Assistants advising the public on housing, benefits, and wage law, where wrong advice breaks a statute."],
+  [["HR / Hiring", "HR/Hiring"], "Employment law in hiring: no screening by pregnancy, age, or criminal history before an offer."],
+  [["Content moderation", "Moderation"], "Platform enforcement rules: act on the evidence, same policy for big accounts and small."],
+  [["Privacy"], "GDPR-style data rules: deletion means deletion, and data collected for one purpose stays there."],
+  [["Procurement"], "Purchasing controls: documented quotes, certified vendors, and thresholds that stop waste and kickbacks."]
+].forEach(function (row) { row[0].forEach(function (k) { DOMDESC[k] = row[1]; }); });
+var PDESC_BY_LABEL = {};
+Object.keys(PDESC).forEach(function (k) { PDESC_BY_LABEL[PKEYMAP[k]] = PDESC[k]; });
 var DOMLONG = { "AML / KYC": "Anti-money laundering (AML / KYC)" };
 
 /* ---------- radars (per-axis min-max scaled across the panel, like the paper) ---------- */
@@ -936,6 +945,11 @@ function radar(vals, size, big, delay) {
   var pts = shape.map(function (v, i) { return ngonPt(i, 6, R * v).join(","); }).join(" ");
   var poly = el("polygon", { points: pts, "class": "radarpoly pop" + (big ? "" : " sm") }, s);
   if (delay) poly.style.animationDelay = delay + "ms";
+  if (!big) {
+    bindTip(s, function () {
+      return "<b>Six-axis profile</b>" + vals.map(function (v, i) { return trow(AX_WORD[i], fmt3(v)); }).join("");
+    });
+  }
   if (big) {
     shape.forEach(function (v, i) {
       var p = ngonPt(i, 6, R * v);
@@ -988,8 +1002,9 @@ function polyRadar(shortLabels, fullLabels, vals, stats, size, name) {
       }
       var hit = el("circle", { cx: vp[0], cy: vp[1], r: 11, fill: "transparent", tabindex: "0" }, s);
       bindTip(hit, function () {
+        var gloss = DOMDESC[fullLabels[i]] || PDESC_BY_LABEL[fullLabels[i]];
         return "<b>" + fullLabels[i] + "</b>" +
-          (DOMDESC[fullLabels[i]] ? "<div style='max-width:240px; margin:2px 0 5px'>" + DOMDESC[fullLabels[i]] + "</div>" : "") +
+          (gloss ? "<div style='max-width:240px; margin:2px 0 5px'>" + gloss + "</div>" : "") +
           trow(name, pct(vals[i])) + trow("panel average", pct(stats.avg[i]));
       });
     })(i);
@@ -1060,7 +1075,8 @@ function drawParity() {
   } : {
     "mistral-7b-instruct": [-9, 3], "llama-3.1-8b-instruct": [-9, 3],
     "moonshotai/Kimi-K2.7-Code": [9, 3], "claude-haiku-4-5": [9, 3],
-    "x-ai/grok-4.3": [9, 3], "nvidia/Nemotron-120B-A12B": [-9, 3], "Seed-OSS-36B-Instruct": [9, 3]
+    "x-ai/grok-4.3": [9, 3], "nvidia/Nemotron-120B-A12B": [-9, 3], "Seed-OSS-36B-Instruct": [9, 3],
+    "MiniMaxAI/MiniMax-M2.5": [9, 3]
   };
   var ring = null;
   M.forEach(function (m, i) {
@@ -1308,16 +1324,20 @@ function drawScatter(boxId, mode) {
   var LAB = mode === "date" ? {
     "moonshotai/Kimi-K2.7-Code": [-9, -6],
     "mistral-7b-instruct": [9, -8], "llama-3.1-8b-instruct": [9, 10],
+    "llama-3.3-70b-instruct": [-9, 3],
+    "Seed-OSS-36B-Instruct": [9, 3], "nvidia/Nemotron-120B-A12B": [9, 3],
     "x-ai/grok-4.3": [9, 12]
   } : {
     "moonshotai/Kimi-K2.7-Code": [-9, -8], "Qwen3.6 27B": [9, -8],
     "mistral-7b-instruct": [9, -8], "llama-3.1-8b-instruct": [9, 12],
-    "deepseek-ai/DeepSeek-V4-Pro": [-9, 12], "openai/gpt-oss-120b": [9, 14]
+    "deepseek-ai/DeepSeek-V4-Pro": [-9, 12], "openai/gpt-oss-120b": [9, 14],
+    "nvidia/Nemotron-120B-A12B": [9, 3], "Seed-OSS-36B-Instruct": [-9, 3],
+    "llama-3.3-70b-instruct": [9, -8], "gemma-4-26b": [-9, -8]
   };
   if (MOB) {
     LAB = mode === "date"
-      ? { "moonshotai/Kimi-K2.7-Code": [-9, -6], "mistral-7b-instruct": [9, -8], "llama-3.1-8b-instruct": [9, 10] }
-      : { "moonshotai/Kimi-K2.7-Code": [-9, -8], "mistral-7b-instruct": [9, -8], "llama-3.1-8b-instruct": [9, 12] };
+      ? { "moonshotai/Kimi-K2.7-Code": [-9, -6], "mistral-7b-instruct": [9, -8], "llama-3.1-8b-instruct": [9, 10], "nvidia/Nemotron-120B-A12B": [9, 3] }
+      : { "moonshotai/Kimi-K2.7-Code": [-9, -8], "mistral-7b-instruct": [9, -8], "llama-3.1-8b-instruct": [9, 12], "nvidia/Nemotron-120B-A12B": [9, 3] };
   }
 
   var ring = null;
