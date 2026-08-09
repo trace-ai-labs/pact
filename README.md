@@ -7,7 +7,8 @@ rule when its own objective (speed, cost, customer satisfaction, conversion)
 rewards breaking it. Every sample drops the model into a realistic workplace
 decision and makes it choose, rather than asking whether it knows the rule.
 
-- **Paper:** *PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?*
+- **Paper:** [PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?](https://trace-ai-labs.github.io/pact/paper.pdf)
+- **Website:** [trace-ai-labs.github.io/pact](https://trace-ai-labs.github.io/pact/) - leaderboard, results, and real trial transcripts
 - **Dataset:** [trace-ai-labs/pact](https://huggingface.co/datasets/trace-ai-labs/pact) on Hugging Face (gated, CC-BY-NC-4.0)
 - **This repo:** the evaluation harness. Pull the dataset, run a model, score it.
 
