@@ -1762,5 +1762,19 @@ route();
 </script>
 <script data-goatcounter="https://trace-ai-labs.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
+<script>
+document.addEventListener('click', function (e) {
+    var a = e.target.closest('a');
+    if (!a || !a.href || !window.goatcounter || !window.goatcounter.count) return;
+    var external = a.host !== location.host;
+    var pdf = /\.pdf($|\?)/.test(a.pathname);
+    if (!external && !pdf) return;
+    window.goatcounter.count({
+        path: 'click-' + a.host + a.pathname,
+        title: (a.textContent || '').trim().slice(0, 100) || a.href,
+        event: true,
+    });
+});
+</script>
 </body>
 </html>
