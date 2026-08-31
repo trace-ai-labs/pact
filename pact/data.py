@@ -1,8 +1,7 @@
 """Load the PACT dataset from the Hugging Face Hub.
 
-The dataset is gated: accept the license at
-https://huggingface.co/datasets/trace-ai-labs/pact and authenticate
-(`huggingface-cli login`, or set HF_TOKEN) before the first load.
+The dataset is public (MIT) at
+https://huggingface.co/datasets/trace-ai-labs/pact - no authentication needed.
 
 The published columns are flat and minimal. `load_samples` normalizes them into
 the shape the runner and the metrics expect, deriving the three fields the
@@ -87,9 +86,8 @@ def load_published(path: Optional[str] = None, repo: str = HF_REPO,
     except Exception as e:
         raise SystemExit(
             f"could not load {repo}:{split} - {type(e).__name__}: {e}\n\n"
-            f"The dataset is gated. Accept the license at\n"
-            f"  https://huggingface.co/datasets/{repo}\n"
-            f"then authenticate with `huggingface-cli login` or set HF_TOKEN.")
+            f"Check your connection to https://huggingface.co/datasets/{repo},\n"
+            f"or pass --samples with a local JSONL.")
     return [{k: r[k] for k in PUBLISHED_COLUMNS} for r in ds]
 
 

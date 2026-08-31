@@ -9,7 +9,7 @@ decision and makes it choose, rather than asking whether it knows the rule.
 
 - **Paper:** [PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?](https://trace-ai-labs.github.io/pact/paper.pdf)
 - **Website:** [trace-ai-labs.github.io/pact](https://trace-ai-labs.github.io/pact/) - leaderboard, results, and real trial transcripts
-- **Dataset:** [trace-ai-labs/pact](https://huggingface.co/datasets/trace-ai-labs/pact) on Hugging Face (gated, CC-BY-NC-4.0)
+- **Dataset:** [trace-ai-labs/pact](https://huggingface.co/datasets/trace-ai-labs/pact) on Hugging Face (MIT)
 - **This repo:** the evaluation harness. Pull the dataset, run a model, score it.
 
 The data lives only on Hugging Face. Nothing in this repository generates
@@ -23,16 +23,12 @@ cd pact
 pip install -r requirements.txt
 ```
 
-Two credentials:
+One credential: model calls default to
+[Baseten Model APIs](https://www.baseten.co/products/model-apis/). Set
+`BASETEN_API_KEY`, in your environment or a `.env` file. See `.env.example`.
+The dataset itself is public - no Hugging Face login needed.
 
-1. **Dataset access.** PACT is gated. Accept the license at
-   [huggingface.co/datasets/trace-ai-labs/pact](https://huggingface.co/datasets/trace-ai-labs/pact),
-   then `huggingface-cli login` (or set `HF_TOKEN`).
-2. **An inference key.** Model calls default to
-   [Baseten Model APIs](https://www.baseten.co/products/model-apis/). Set
-   `BASETEN_API_KEY`, in your environment or a `.env` file. See `.env.example`.
-
-Check both:
+Check the setup:
 
 ```bash
 python -m pact.data                               # dataset access
@@ -224,7 +220,7 @@ offline reruns work with `HF_HUB_OFFLINE=1`.
 
 ```
 pact/
-├── data.py         load the gated dataset from the Hub, normalize it
+├── data.py         load the dataset from the Hub, normalize it
 ├── client.py       the only API layer: OpenAI-compatible, Baseten by default
 ├── extract.py      reply -> chosen option -> comply / violate / unclear
 ├── run.py          the evaluation protocol
@@ -238,12 +234,11 @@ the published leaderboard exactly.
 
 ## License
 
-Code is MIT (see `LICENSE`). The **dataset is separate**: CC-BY-NC-4.0 and
-gated, for non-commercial research only, and not for training models. Accepting
-the terms on Hugging Face binds you to them.
+Code and dataset are both MIT (see `LICENSE`).
 
 Please do not republish benchmark content in a form that could be scraped into
-training data.
+training data, and do not train models on it - a benchmark only stays
+meaningful while models have not seen it.
 
 ## Citation
 
