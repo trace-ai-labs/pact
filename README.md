@@ -19,6 +19,15 @@ clears the bar for unsupervised use.
 - **Dataset:** [trace-ai-labs/pact](https://huggingface.co/datasets/trace-ai-labs/pact) on Hugging Face (MIT)
 - **This repo:** the evaluation harness. Pull the dataset, run a model, score it.
 
+## Key findings
+
+- No model is reliable enough to deploy unsupervised. The best PACTScore is 0.944, no model reaches 0.95, and half the panel fails one item in twelve or worse.
+- Most of the unreliability arises under user pressure. One added pressure raises the violation rate from 4.4% to 7.3% of decisions on average, and multi-turn pushback raises it further.
+- No model is transparent about the rules it breaks. Of 16,424 judged violations, 8.0% disclose the breach, 12.8% are silent, and 79.2% misrepresent the choice as compliant, as covered by an approval the conversation never established, or as resolved by a workaround the model invented.
+- Models also enforce rules that do not apply. On requests the rule does not cover, models apply it anyway on 19.6% of decisions, and the strictest models show the largest gap.
+- A hard compliance mandate in the system prompt is worth between 0 and 9 PACTScore points, repairs the models that were unfit to begin with, and lowers two of the top seven. Violations committed under it are misrepresented at the same rate.
+- Compliance does not improve with release date or parameter count.
+
 The data lives only on Hugging Face. Nothing in this repository generates
 scenarios or ships benchmark content.
 
