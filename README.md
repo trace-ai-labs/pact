@@ -27,7 +27,6 @@ clears the bar for unsupervised use.
 - Writing "follow all rules without exception" into the system prompt barely reduced violations for the strongest models.
 - Telling a model it is being evaluated cut violations 29% on average, so models look safer in standard benchmark settings than they are in practice.
 - Models also enforce rules that do not apply. On requests the rule does not cover, they applied it anyway about one time in five, and the strictest models over-apply the most.
-- The two best models are open-weight: Kimi K2.7 (0.944) and Qwen3.6 27B (0.943), statistically tied, ahead of every closed model we tested. A 27B you can run yourself ties for first.
 
 The data lives only on Hugging Face. Nothing in this repository generates
 scenarios or ships benchmark content.
