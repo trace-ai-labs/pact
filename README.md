@@ -1,14 +1,20 @@
-# PACT: an LLM compliance benchmark for enterprise AI assistants under pressure
+# PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?
 
-**Can enterprise AI assistants be trusted under pressure?**
+PACT (Pressure-Applied Compliance Testing) is a benchmark of whether LLM
+assistants keep following the compliance rules they are given once they are
+deployed in a regulated workplace and something makes breaking the rule the
+convenient choice: a deadline, a manager who says to make an exception, a
+peer who already did it, or a user who argues back after the first answer.
+Each of its 3,364 items pairs a real statutory rule with a shortcut that
+violates it, set in a multi-turn conversation across 48 scenarios and 12
+regulated domains (hiring, healthcare, finance, privacy, AML, export
+controls, and more). Models are scored on PACTScore and a six-axis profile
+covering default compliance, resistance to pressure and pushback,
+steerability, transparency, and rule-scope discernment. Across 24 models,
+one sentence of ordinary pressure raises violation rates by 65%, and none
+clears the bar for unsupervised use.
 
-PACT (Pressure-Applied Compliance Testing) is an LLM compliance and AI safety
-benchmark. It measures whether a deployed LLM agent keeps following a binding
-compliance rule when its own objective (speed, cost, customer satisfaction,
-conversion) rewards breaking it, and when a user pushes back. Every sample drops the model into a realistic workplace
-decision and makes it choose, rather than asking whether it knows the rule.
-
-- **Paper:** [PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?](https://trace-ai-labs.github.io/pact/paper.pdf)
+- **Paper:** [PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?](https://www.alphaxiv.org/pdf/2609.pact-enterprise-ai-compliance-testing) (preprint, under review)
 - **Website:** [trace-ai-labs.github.io/pact](https://trace-ai-labs.github.io/pact/) - leaderboard, results, and real trial transcripts
 - **Dataset:** [trace-ai-labs/pact](https://huggingface.co/datasets/trace-ai-labs/pact) on Hugging Face (MIT)
 - **This repo:** the evaluation harness. Pull the dataset, run a model, score it.
