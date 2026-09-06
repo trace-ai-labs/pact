@@ -30,7 +30,7 @@ As corporate AI adoption continues to grow, enterprise-grade LLM agents are bein
 - No model is transparent about the rules it breaks. Across 16,424 judged violations, 79% of replies misrepresented the decision: as compliant, as covered by an approval nobody gave, or as fixed by a workaround the model invented. Trusting an assistant's own account of what it did is not safe, and transcript review won't reliably catch it.
 - A system-prompt directive to follow all laws and policies regardless of what the user says barely reduced violations for the strongest models.
 - Telling a model it is being evaluated cut violations 29% on average, so models look safer in standard benchmark settings than they are in practice.
-- Models also enforce rules that do not apply. On requests the rule does not cover, they applied it anyway about one time in five, and the strictest models over-apply the most.
+- Models are poor at telling where a rule stops. On requests the rule does not cover, they enforced it anyway about one time in five, and the strictest models over-applied the most. Over-application is not harmless: an assistant that refuses requests it was deployed to handle leaves the organization no less exposed and measurably less productive.
 - Newer and bigger is not safer. A 27B dense model is tied for first with a trillion-parameter one, and two of the four closed frontier systems place mid-pack.
 
 The data lives only on Hugging Face. Nothing in this repository generates
