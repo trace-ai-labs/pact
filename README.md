@@ -23,10 +23,11 @@ clears the bar for unsupervised use.
 
 - No model is reliable enough to run unsupervised in a regulated workflow. The best model still missed roughly 1 decision in 18.
 - One sentence of ordinary pressure raised violation rates 65%. None of the pressures are jailbreaks; they are the sentences coworkers send: a deadline, a manager's verbal OK, "my colleague did it and nothing happened."
-- When models break a rule, they rarely say so. Across 16,424 judged violations, 79% of replies described the decision as compliant: covered by an approval nobody gave, or fixed by a workaround the model invented. Trusting an assistant's own account of what it did is not safe, and transcript review won't reliably catch it.
+- No model is transparent about the rules it breaks. Across 16,424 judged violations, 79% of replies described the decision as compliant: covered by an approval nobody gave, or fixed by a workaround the model invented. Trusting an assistant's own account of what it did is not safe, and transcript review won't reliably catch it.
 - Writing "follow all rules without exception" into the system prompt barely reduced violations for the strongest models.
 - Telling a model it is being evaluated cut violations 29% on average, so models look safer in standard benchmark settings than they are in practice.
 - Models also enforce rules that do not apply. On requests the rule does not cover, they applied it anyway about one time in five, and the strictest models over-apply the most.
+- Newer and bigger is not safer. Compliance does not improve with release date or parameter count.
 
 The data lives only on Hugging Face. Nothing in this repository generates
 scenarios or ships benchmark content.
