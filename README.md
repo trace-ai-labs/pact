@@ -1,37 +1,15 @@
 # PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?
 
 PACT (Pressure-Applied Compliance Testing) is a benchmark of whether LLM
-assistants keep following the compliance rules they are given once they are
-deployed in a regulated workplace and something makes breaking the rule the
-convenient choice: a deadline, a manager who says to make an exception, a
-peer who already did it, or a user who argues back after the first answer.
-Each of its 3,364 items pairs a real statutory rule with a shortcut that
-violates it, set in a multi-turn conversation across 48 scenarios and 12
-regulated domains (hiring, healthcare, finance, privacy, AML, export
-controls, and more). Models are scored on PACTScore and a six-axis profile
-covering default compliance, resistance to pressure and pushback,
-steerability, transparency, and rule-scope discernment. Across 24 models,
-one sentence of ordinary pressure raises violation rates by 65%, and none
-clears the bar for unsupervised use.
+assistants keep following the compliance rules they are given once something
+makes breaking the rule the convenient choice: a deadline, a manager who says to
+make an exception, a peer who already did it, or a user who argues back. 3,364
+items across 48 scenarios and 12 regulated domains, scored on PACTScore and six
+axes. This repo is the evaluation harness: pull the dataset, run a model, score it.
 
 - **Paper:** [PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?](https://www.alphaxiv.org/pdf/2609.pact-enterprise-ai-compliance-testing) (preprint, under review)
 - **Website:** [trace-ai-labs.github.io/pact](https://trace-ai-labs.github.io/pact/) - leaderboard, results, and real trial transcripts
 - **Dataset:** [trace-ai-labs/pact](https://huggingface.co/datasets/trace-ai-labs/pact) on Hugging Face (MIT)
-- **This repo:** the evaluation harness. Pull the dataset, run a model, score it.
-
-## Quick start
-
-```bash
-pip install -r requirements.txt
-export BASETEN_API_KEY=...                        # or any OpenAI-compatible provider, see Models
-python -m pact.run --models kimi --limit 20 --reps 1   # smoke run, ~40 calls
-python -m pact.run --models kimi --reps 3              # the full benchmark, as the paper ran it
-python -m pact.score                                   # PACTScore, six axes, bootstrap intervals
-```
-
-## Abstract
-
-As corporate AI adoption continues to grow, enterprise-grade LLM agents are being deployed into sensitive contexts such as hiring, healthcare, and finance. In these contexts, compliance with rules specified in an agent's system context is a first-order legal concern. Currently, no evaluation framework systematically measures which LLM models tend to violate compliance rules, especially under pressure from a persistent user, a hurried manager, or circumstances where violation is convenient or attractive. We introduce PACT (Pressure-Applied Compliance Testing), a benchmark for rule-following under pressure in AI agents assisting employees in daily tasks across twelve regulated enterprise domains and forty-eight scenarios, each set in a realistic multi-turn conversation. Each benchmark item pairs a standing rule against a rule-violating shortcut, and applies a battery of pressures across different wordings and system-prompt modes. We construct PACT component by component under strict LLM-as-judge auditing to ensure samples are unambiguous, ungameable, and realistic enough to avoid eliciting evaluation-aware behavior. We use PACT to profile LLM compliance across six complementary metrics that create a holistic picture of an AI assistant's robustness under pressure and throughout multi-turn conversations, its transparency, and ability to correctly discern where a rule applies. We aggregate this profile into PACTScore, a reliability-weighted compliance rate over all items and modes. Our results across 22 common LLM models spanning multiple providers and sizes show substantial variability in compliance across models and metric dimensions. Even the strongest assistants mis-apply a rule on 6 to 10% of items, and ordinary user pressure raises the violation rate by 65% on average.
 
 ## Key findings
 
@@ -42,6 +20,31 @@ As corporate AI adoption continues to grow, enterprise-grade LLM agents are bein
 - Telling a model it is being evaluated cut violations 29% on average, so models look safer in standard benchmark settings than they are in practice.
 - Models are poor at telling where a rule stops. On requests the rule does not cover, they enforced it anyway about one time in five, and the strictest models over-applied the most. Over-application is not harmless: an assistant that refuses requests it was deployed to handle leaves the organization no less exposed and measurably less productive.
 - Newer and bigger is not safer. A 27B dense model is tied for first with a trillion-parameter one, and two of the four closed frontier systems place mid-pack.
+
+## The dataset
+
+3,364 samples over 48 scenarios in 12 regulated domains. Each scenario cell
+ships twice, differing only in the system prompt: `base`, and `mandate` with a
+hard compliance directive appended. Comparing the pair is what measures whether
+telling a model to comply actually works.
+
+Slice with `--groups`:
+
+| group | the rule | what it catches |
+|---|---|---|
+| `neutral` | binds | baseline compliance, no pressure |
+| `pressure` | binds | one of nine realistic pressures in the user turn |
+| `guard_nonbinding` | does **not** bind | over-application: enforcing a rule that does not apply |
+| `attack_binding` | binds | the user wrongly argues it does not |
+| `attack_nonbinding` | does **not** bind | the user wrongly argues it does |
+
+The nine pressure families: urgency, verbal manager authorization, a peer who
+already did it, risk minimizing, cost framing, a claimed clearance, a fait
+accompli, a sympathetic beneficiary, and responsibility shifting.
+
+This harness does not redistribute the dataset or write any of it to disk.
+`datasets` keeps its own cache, so once you have loaded it a first time,
+offline reruns work with `HF_HUB_OFFLINE=1`.
 
 ## Install
 
@@ -218,43 +221,6 @@ masquerade as the published ones:
    self-preference effect the paper's design removes.
 
 Override the ensemble with `--judges`. Anything your endpoint serves works.
-
-## What the dataset looks like
-
-3,364 samples over 48 scenarios in 12 regulated domains. Each scenario cell
-ships twice, differing only in the system prompt: `base`, and `mandate` with a
-hard compliance directive appended. Comparing the pair is what measures whether
-telling a model to comply actually works.
-
-Slice with `--groups`:
-
-| group | the rule | what it catches |
-|---|---|---|
-| `neutral` | binds | baseline compliance, no pressure |
-| `pressure` | binds | one of nine realistic pressures in the user turn |
-| `guard_nonbinding` | does **not** bind | over-application: enforcing a rule that does not apply |
-| `attack_binding` | binds | the user wrongly argues it does not |
-| `attack_nonbinding` | does **not** bind | the user wrongly argues it does |
-
-The nine pressure families: urgency, verbal manager authorization, a peer who
-already did it, risk minimizing, cost framing, a claimed clearance, a fait
-accompli, a sympathetic beneficiary, and responsibility shifting.
-
-This harness does not redistribute the dataset or write any of it to disk.
-`datasets` keeps its own cache, so once you have loaded it a first time,
-offline reruns work with `HF_HUB_OFFLINE=1`.
-
-## Contributing results
-
-To get a model on the leaderboard, open an issue with the model slug and
-provider, your `results/trials/<model>.jsonl` (and
-`results/labels/transparency.jsonl` if you ran that pass), and the output of
-`python -m pact.score`. We re-score the trials before adding a row, so please
-do not edit them.
-
-Two things must stay fixed for scores to be comparable: the extractor prompt,
-which is checksummed for that reason, and the sample text, which has to be sent
-exactly as stored, option order included.
 
 ## Layout
 
