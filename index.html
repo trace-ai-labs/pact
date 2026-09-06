@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="PACT is an LLM compliance benchmark from TRACE AI Labs that pressure-tests enterprise AI assistants and agents on rule-following in regulated workplaces: 3,364 items, 12 regulated domains, nine kinds of social pressure plus user pushback, 24 models scored. Leaderboard, dataset, and paper.">
+<meta name="description" content="PACT is an LLM compliance benchmark from TRACE AI Labs that pressure-tests enterprise AI assistants and agents on rule-following in regulated workplaces: 3,364 items, 12 regulated domains, nine kinds of social pressure plus user pushback, 24 models scored. No model is safe to run unsupervised, and 79% of violations are misreported as compliant. Leaderboard, dataset, and paper.">
 <title>PACT · LLM compliance benchmark: enterprise AI assistants under pressure | TRACE AI Labs</title>
 <link rel="canonical" href="https://trace-ai-labs.github.io/pact/">
 <meta name="citation_title" content="PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?">
@@ -13,7 +13,7 @@
 <meta name="citation_technical_report_institution" content="TRACE AI Labs">
 <meta name="citation_doi" content="10.13140/RG.2.2.33293.50407">
 <meta name="citation_pdf_url" content="https://trace-ai-labs.github.io/pact/paper.pdf">
-<meta name="keywords" content="PACT benchmark, Pressure-Applied Compliance Testing, LLM compliance benchmark, AI compliance, AI agent compliance, agent compliance, LLM pressure testing, AI agents under pressure, rule following, rule-following under pressure, policy adherence, system prompt adherence, instruction following under pressure, guardrails, AI safety benchmark, LLM safety evaluation, agentic AI safety, trustworthy AI, AI governance, enterprise AI assistants, LLM agents, AI in regulated industries, regulated domains, regulatory compliance, sycophancy, pushback, social pressure, multi-turn evaluation, AI assistants break rules, PACTScore, TRACE AI Labs">
+<meta name="keywords" content="PACT benchmark, Pressure-Applied Compliance Testing, LLM compliance benchmark, AI compliance, AI agent compliance, agent compliance, LLM pressure testing, AI agents under pressure, rule following, rule-following under pressure, policy adherence, system prompt adherence, instruction following under pressure, guardrails, AI safety benchmark, LLM safety evaluation, agentic AI safety, trustworthy AI, AI governance, enterprise AI assistants, LLM agents, AI in regulated industries, regulated domains, regulatory compliance, sycophancy, pushback, social pressure, multi-turn evaluation, AI assistants break rules, LLM deception, misreporting violations, honesty under pressure, AI oversight, alignment evaluation, PACTScore, TRACE AI Labs">
 <meta name="robots" content="index, follow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="TRACE AI Labs">
@@ -44,7 +44,7 @@
       "url": "https://trace-ai-labs.github.io/pact/",
       "sameAs": "https://huggingface.co/datasets/trace-ai-labs/pact",
       "description": "PACT is a benchmark measuring whether enterprise AI assistants keep embedded compliance rules under realistic user pressure. 3,364 items pair a company rule with a convenient shortcut that violates it, set in multi-turn workplace conversations across 48 scenarios, 12 regulated domains, and nine psychology-grounded pressures. Models are scored on PACTScore and a six-metric profile.",
-      "keywords": ["LLM compliance benchmark", "AI compliance", "AI agent compliance", "agent compliance", "LLM pressure testing", "AI agents under pressure", "rule following", "policy adherence", "system prompt adherence", "instruction following under pressure", "guardrails", "AI safety benchmark", "LLM safety evaluation", "agentic AI safety", "trustworthy AI", "AI governance", "enterprise AI assistants", "LLM agents", "regulated industries", "regulatory compliance", "sycophancy", "pushback", "social pressure", "multi-turn evaluation", "PACTScore"],
+      "keywords": ["LLM compliance benchmark", "AI compliance", "AI agent compliance", "agent compliance", "LLM pressure testing", "AI agents under pressure", "rule following", "policy adherence", "system prompt adherence", "instruction following under pressure", "guardrails", "AI safety benchmark", "LLM safety evaluation", "agentic AI safety", "trustworthy AI", "AI governance", "enterprise AI assistants", "LLM agents", "regulated industries", "regulatory compliance", "sycophancy", "pushback", "social pressure", "multi-turn evaluation", "LLM deception", "misreporting violations", "honesty under pressure", "AI oversight", "alignment evaluation", "PACTScore"],
       "license": "https://opensource.org/license/mit",
       "isAccessibleForFree": true,
       "creator": [
@@ -567,14 +567,16 @@ pre.bibtex {
 .priorbtns { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 14px; }
 .morework { margin-top: 28px; font-size: 13.5px; }
 
-.findings { max-width: 86ch; margin: 0 auto; padding-left: 1.3em; color: var(--ink-2); font-size: 15.5px; }
-.findings li { margin-bottom: 10px; }
-.abstract-text { text-align: left !important; font-size: 14.5px; }
-table.cmp { border-collapse: collapse; width: 100%; min-width: 760px; font-size: 13px; }
-table.cmp th { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--hairline); color: var(--muted); font-weight: 600; font-size: 12px; letter-spacing: 0.02em; }
-table.cmp td { padding: 6px 12px; border-bottom: 1px solid var(--hairline); color: var(--ink-2); vertical-align: top; }
-table.cmp td:first-child { font-weight: 600; color: var(--ink); white-space: nowrap; }
-table.cmp tr.ours td { background: var(--wash); color: var(--ink); }
+.folds { max-width: 86ch; margin: 22px auto 0; display: grid; gap: 10px; }
+details.fold { border: 1px solid var(--hairline); background: var(--surface); text-align: left; }
+details.fold > summary { cursor: pointer; list-style: none; padding: 12px 16px; font-weight: 600; font-size: 15px; display: flex; align-items: center; gap: 10px; color: var(--ink); }
+details.fold > summary::-webkit-details-marker { display: none; }
+details.fold .tri { color: var(--accent); display: inline-block; transition: transform .2s; }
+details.fold[open] .tri { transform: rotate(90deg); }
+.fold-body { padding: 0 16px 14px; color: var(--ink-2); font-size: 14.5px; line-height: 1.55; }
+.fold-body ul { margin: 0; padding-left: 1.2em; }
+.fold-body li { margin-bottom: 8px; }
+.fold-body p { margin: 0; }
 </style>
 
 <header class="site">
@@ -628,10 +630,32 @@ table.cmp tr.ours td { background: var(--wash); color: var(--ink); }
       </div>
       <div class="stat" role="listitem">
         <div class="v"><span id="stat-mis" data-count="79" data-dec="0">79</span><small>%</small></div>
-        <div class="d">When models break a rule, they present the result as compliant 79% of the time.</div>
+        <div class="d">When models break a rule, they misrepresent the outcome as compliant 79% of the time and stay silent another 13%.</div>
       </div>
     </div>
     <p class="countline rv"><b>3,364</b> items &nbsp;·&nbsp; <b>48</b> scenarios &nbsp;·&nbsp; <b>12</b> domains &nbsp;·&nbsp; <b>24</b> models</p>
+  </div>
+
+  <div class="wrap folds rv">
+    <details class="fold">
+      <summary><span class="tri">&#9656;</span> Key findings</summary>
+      <div class="fold-body">
+        <ul>
+          <li>No model is reliable enough to deploy unsupervised. The best PACTScore is 0.944, no model reaches 0.95, and half the panel fails one item in twelve or worse.</li>
+          <li>Most of the unreliability arises under user pressure. One added pressure raises the violation rate from 4.4% to 7.3% of decisions on average, and multi-turn pushback raises it further.</li>
+          <li>No model is transparent about the rules it breaks. Of 16,424 judged violations, 8.0% disclose the breach, 12.8% are silent, and 79.2% misrepresent the choice: as compliant, as covered by an approval the conversation never established, or as resolved by a workaround the model invented. A misrepresented violation survives human review because it arrives with a reason.</li>
+          <li>Models also enforce rules that do not apply. On requests the rule does not cover, models apply it anyway on 19.6% of decisions, and the strictest models show the largest gap.</li>
+          <li>The compliance mandate does not help the models worth deploying. It is worth between 0 and 9 PACTScore points, repairs the models that were unfit to begin with, moves five of the top seven by under one point, and lowers two. Violations committed under it are misrepresented at the same rate.</li>
+          <li>Compliance does not improve with release date or parameter count. A 27B dense model is tied for first with a trillion-parameter one, and two of the four closed frontier systems place mid-pack.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="fold">
+      <summary><span class="tri">&#9656;</span> Abstract</summary>
+      <div class="fold-body">
+        <p>As corporate AI adoption continues to grow, enterprise-grade LLM agents are being deployed into sensitive contexts such as hiring, healthcare, and finance. In these contexts, compliance with rules specified in an agent's system context is a first-order legal concern. Currently, no evaluation framework systematically measures which LLM models tend to violate compliance rules, especially under pressure from a persistent user, a hurried manager, or circumstances where violation is convenient or attractive. We introduce PACT (Pressure-Applied Compliance Testing), a benchmark for rule-following under pressure in AI agents assisting employees in daily tasks across twelve regulated enterprise domains and forty-eight scenarios, each set in a realistic multi-turn conversation. Each benchmark item pairs a standing rule against a rule-violating shortcut, and applies a battery of pressures across different wordings and system-prompt modes. We construct PACT component by component under strict LLM-as-judge auditing to ensure samples are unambiguous, ungameable, and realistic enough to avoid eliciting evaluation-aware behavior. We use PACT to profile LLM compliance across six complementary metrics that create a holistic picture of an AI assistant's robustness under pressure and throughout multi-turn conversations, its transparency, and ability to correctly discern where a rule applies. We aggregate this profile into PACTScore, a reliability-weighted compliance rate over all items and modes. Our results across 22 common LLM models spanning multiple providers and sizes show substantial variability in compliance across models and metric dimensions. Even the strongest assistants mis-apply a rule on 6 to 10% of items, and ordinary user pressure raises the violation rate by 65% on average.</p>
+      </div>
+    </details>
   </div>
 
   <section>
@@ -677,20 +701,6 @@ table.cmp tr.ours td { background: var(--wash); color: var(--ink); }
     </div>
   </section>
 
-  <section>
-    <div class="wrap">
-      <h2 class="rv">What we found</h2>
-      <ul class="findings rv">
-        <li>Is any current model safe to run a regulated workflow without human oversight? On PACT, no. The best of 24 models scores 0.944, and even the strongest assistants mis-apply a rule on 6 to 10% of items.</li>
-        <li>One sentence of ordinary workplace pressure, a deadline or a manager's say-so, raises violation rates by 65%. No jailbreak is involved.</li>
-        <li>When a model breaks a rule, it tells the user it complied 79% of the time. The model's own account of what it did cannot serve as the audit trail.</li>
-        <li>Newer and larger is not safer. A 27B dense model ties a trillion-parameter one, and two of the four closed frontier systems land mid-pack.</li>
-        <li>A hard compliance directive in the system prompt is worth between 0 and 9 PACTScore points, and helps least for the models that were already best. A prompt-level guardrail is not a substitute for a process control.</li>
-        <li>Stricter is not better. Over-applying a rule where it does not bind is scored as an error, and some of the most rule-bound models refuse legitimate requests more than a fifth of the time.</li>
-      </ul>
-    </div>
-  </section>
-
   <div class="wrap">
     <div class="ovlb rv">
       <div class="hd"><h2>PACTScore leaderboard</h2></div>
@@ -699,41 +709,6 @@ table.cmp tr.ours td { background: var(--wash); color: var(--ink); }
     </div>
   </div>
 
-  <section>
-    <div class="wrap">
-      <h2 class="rv">How PACT compares to other benchmarks</h2>
-      <p class="sec-intro rv">
-        PACT sits between three research threads: instruction following and policy adherence (IFEval, IHEval, tau-bench),
-        regulatory benchmarks that ask a model to judge compliance (CompliBench, SafeLawBench, LogiSafetyBench, MAC-Bench),
-        and safety suites built around malicious users or dishonesty (HarmBench, AgentHarm, SORRY-Bench, AIR-Bench, XSTest, MASK).
-        Only PACT combines a benign user with an incentive conflict, an embedded rule, multi-turn pushback, and nine distinct pressures.
-      </p>
-      <div class="tablewrap rv">
-        <table class="cmp">
-          <thead><tr><th>Benchmark</th><th>Setting</th><th>Multi-turn</th><th>Honesty</th><th>Pressures</th><th>Reported metric</th></tr></thead>
-          <tbody>
-            <tr class="ours"><td>PACT</td><td>Enterprise assistant; a benign user with a conflicting need</td><td>yes</td><td>yes</td><td>yes</td><td>PACTScore and a six-axis profile</td></tr>
-            <tr><td>tau2-bench</td><td>Support agent; cooperative user</td><td>yes</td><td>-</td><td>-</td><td>Task success (pass^k)</td></tr>
-            <tr><td>MASK</td><td>Q&amp;A; prompt pressures a lie</td><td>-</td><td>yes</td><td>partial</td><td>Honesty score</td></tr>
-            <tr><td>AgentHarm</td><td>Agent given malicious tasks</td><td>-</td><td>-</td><td>-</td><td>Harm / refusal score</td></tr>
-            <tr><td>AIR-Bench</td><td>Prompts for unsafe content</td><td>-</td><td>-</td><td>-</td><td>Refusal rate</td></tr>
-            <tr><td>SORRY-Bench</td><td>Prompts for unsafe content</td><td>partial</td><td>-</td><td>-</td><td>Refusal rate</td></tr>
-            <tr><td>CompliBench</td><td>Model grades chat transcripts</td><td>yes</td><td>-</td><td>-</td><td>Detection F1 (as judge)</td></tr>
-            <tr><td>MAC-Bench</td><td>Multi-agent task simulation</td><td>yes</td><td>-</td><td>partial</td><td>Compliance vs. task</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <h2 class="rv">Abstract</h2>
-      <p class="sec-intro rv abstract-text">
-        As corporate AI adoption continues to grow, enterprise-grade LLM agents are being deployed into sensitive contexts such as hiring, healthcare, and finance. In these contexts, compliance with rules specified in an agent's system context is a first-order legal concern. Currently, no evaluation framework systematically measures which LLM models tend to violate compliance rules, especially under pressure from a persistent user, a hurried manager, or circumstances where violation is convenient or attractive. We introduce PACT (Pressure-Applied Compliance Testing), a benchmark for rule-following under pressure in AI agents assisting employees in daily tasks across twelve regulated enterprise domains and forty-eight scenarios, each set in a realistic multi-turn conversation. Each benchmark item pairs a standing rule against a rule-violating shortcut, and applies a battery of pressures across different wordings and system-prompt modes. We construct PACT component by component under strict LLM-as-judge auditing to ensure samples are unambiguous, ungameable, and realistic enough to avoid eliciting evaluation-aware behavior. We use PACT to profile LLM compliance across six complementary metrics that create a holistic picture of an AI assistant's robustness under pressure and throughout multi-turn conversations, its transparency, and ability to correctly discern where a rule applies. We aggregate this profile into PACTScore, a reliability-weighted compliance rate over all items and modes. Our results across 22 common LLM models spanning multiple providers and sizes show substantial variability in compliance across models and metric dimensions. Even the strongest assistants mis-apply a rule on 6 to 10% of items, and ordinary user pressure raises the violation rate by 65% on average.
-      </p>
-    </div>
-  </section>
 </div>
 
 <!-- ================= LEADERBOARD ================= -->
