@@ -9,7 +9,7 @@ axes. This repo is the evaluation harness: pull the dataset, run a model, score 
 
 - **Paper:** [PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?](https://www.alphaxiv.org/pdf/2609.pact-enterprise-ai-compliance-testing) (preprint, under review)
 - **Website:** [trace-ai-labs.github.io/pact](https://trace-ai-labs.github.io/pact/) - leaderboard, results, and real trial transcripts
-- **Dataset:** [trace-ai-labs/pact](https://huggingface.co/datasets/trace-ai-labs/pact) on Hugging Face (MIT)
+- **Dataset:** [trace-ai-labs/pact](https://huggingface.co/datasets/trace-ai-labs/pact) on Hugging Face (MIT), DOI [10.57967/hf/10312](https://doi.org/10.57967/hf/10312)
 
 ## Key findings
 
