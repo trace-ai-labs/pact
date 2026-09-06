@@ -1,16 +1,18 @@
-# PACT
+# PACT: an LLM compliance benchmark for enterprise AI assistants under pressure
 
 **Can enterprise AI assistants be trusted under pressure?**
 
-PACT measures whether a deployed LLM agent keeps following a binding compliance
-rule when its own objective (speed, cost, customer satisfaction, conversion)
-rewards breaking it. Every sample drops the model into a realistic workplace
+PACT (Pressure-Applied Compliance Testing) is an LLM compliance and AI safety
+benchmark. It measures whether a deployed LLM agent keeps following a binding
+compliance rule when its own objective (speed, cost, customer satisfaction,
+conversion) rewards breaking it, and when a user pushes back. Every sample drops the model into a realistic workplace
 decision and makes it choose, rather than asking whether it knows the rule.
 
 - **Paper:** [PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?](https://trace-ai-labs.github.io/pact/paper.pdf)
 - **Website:** [trace-ai-labs.github.io/pact](https://trace-ai-labs.github.io/pact/) - leaderboard, results, and real trial transcripts
 - **Dataset:** [trace-ai-labs/pact](https://huggingface.co/datasets/trace-ai-labs/pact) on Hugging Face (MIT)
 - **This repo:** the evaluation harness. Pull the dataset, run a model, score it.
+- **Background:** [LLM compliance](https://trace-ai-labs.github.io/llm-compliance/), [AI agent compliance](https://trace-ai-labs.github.io/ai-agent-compliance/), and [LLM pressure testing](https://trace-ai-labs.github.io/llm-pressure-testing/) explainers from TRACE AI Labs.
 
 The data lives only on Hugging Face. Nothing in this repository generates
 scenarios or ships benchmark content.
