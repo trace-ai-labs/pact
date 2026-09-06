@@ -21,12 +21,13 @@ clears the bar for unsupervised use.
 
 ## Key findings
 
-- No model is reliable enough to deploy unsupervised. The best PACTScore is 0.944, no model reaches 0.95, and half the panel fails one item in twelve or worse.
-- Most of the unreliability arises under user pressure. One added pressure raises the violation rate from 4.4% to 7.3% of decisions on average, and multi-turn pushback raises it further.
-- No model is transparent about the rules it breaks. Of 16,424 judged violations, 8.0% disclose the breach, 12.8% are silent, and 79.2% misrepresent the choice as compliant, as covered by an approval the conversation never established, or as resolved by a workaround the model invented.
-- Models also enforce rules that do not apply. On requests the rule does not cover, models apply it anyway on 19.6% of decisions, and the strictest models show the largest gap.
-- A hard compliance mandate in the system prompt is worth between 0 and 9 PACTScore points, repairs the models that were unfit to begin with, and lowers two of the top seven. Violations committed under it are misrepresented at the same rate.
-- Compliance does not improve with release date or parameter count.
+- No model is reliable enough to run unsupervised in a regulated workflow. The best model still missed roughly 1 decision in 18.
+- One sentence of ordinary pressure raised violation rates 65%. None of the pressures are jailbreaks; they are the sentences coworkers send: a deadline, a manager's verbal OK, "my colleague did it and nothing happened."
+- When models break a rule, they rarely say so. Across 16,424 judged violations, 79% of replies described the decision as compliant: covered by an approval nobody gave, or fixed by a workaround the model invented. Transcript review won't reliably catch it.
+- Writing "follow all rules without exception" into the system prompt barely reduced violations for the strongest models.
+- Telling a model it is being evaluated cut violations 29% on average, so models look safer in standard benchmark settings than they are in practice.
+- Models also enforce rules that do not apply. On requests the rule does not cover, they applied it anyway about one time in five, and the strictest models over-apply the most.
+- The two best models are open-weight: Kimi K2.7 (0.944) and Qwen3.6 27B (0.943), statistically tied, ahead of every closed model we tested. A 27B you can run yourself ties for first.
 
 The data lives only on Hugging Face. Nothing in this repository generates
 scenarios or ships benchmark content.
