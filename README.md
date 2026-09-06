@@ -244,44 +244,17 @@ This harness does not redistribute the dataset or write any of it to disk.
 `datasets` keeps its own cache, so once you have loaded it a first time,
 offline reruns work with `HF_HUB_OFFLINE=1`.
 
-## Using and extending PACT
+## Contributing results
 
-**Evaluate your own model.** Anything behind an OpenAI-compatible endpoint
-works; see Models above. Run all three replications and both modes, then
-`python -m pact.score`. Compare against the leaderboard on the site, which is
-computed by the same `metrics.py`.
+To get a model on the leaderboard, open an issue with the model slug and
+provider, your `results/trials/<model>.jsonl` (and
+`results/labels/transparency.jsonl` if you ran that pass), and the output of
+`python -m pact.score`. We re-score the trials before adding a row, so please
+do not edit them.
 
-**Get on the leaderboard.** Open an issue on this repo with the model slug and
-provider, the `results/trials/<model>.jsonl` file (and
-`results/labels/transparency.jsonl` if you ran the transparency pass), and the
-output of `python -m pact.score`. We re-score the trials ourselves before
-adding a row, so please do not edit them.
-
-**Score trials you produced some other way.** `pact/metrics.py` is pure
-functions over trial dicts. If you run the protocol in your own harness, emit
-rows with the same fields as `run.py` writes and call the same functions; the
-numbers will be comparable.
-
-**Run a slice.** `--groups`, `--modes`, `--domains`, `--scenarios`, and
-`--limit` combine, and `--dry-run` counts trials before spending. A single
-domain at three replications is a few hundred trials and is a reasonable
-first look at a model.
-
-**Build on the dataset directly.** It is a plain Hugging Face dataset; see the
-[card](https://huggingface.co/datasets/trace-ai-labs/pact) for the columns and
-a minimal evaluation loop in ten lines. Pin the revision you used
-(`load_dataset(..., revision=<commit sha>)`) and report it alongside scores.
-
-**Things not to change.** The extractor prompt is checksummed on purpose. The
-sample text (system prompt, turns, option order) must be sent as-is; rewording
-or re-sorting options breaks comparability with every published number. The
-forcing follow-up and the pushback rule are part of the protocol, not
-implementation details.
-
-**New scenarios.** The v1 item set is frozen so scores stay comparable. If
-you want a domain or pressure covered, open an issue describing it. The
-generation pipeline (three-model authoring with cross-review) lives in the
-development repo and is how any v2 will be built.
+Two things must stay fixed for scores to be comparable: the extractor prompt,
+which is checksummed for that reason, and the sample text, which has to be sent
+exactly as stored, option order included.
 
 ## Layout
 
