@@ -19,6 +19,16 @@ clears the bar for unsupervised use.
 - **Dataset:** [trace-ai-labs/pact](https://huggingface.co/datasets/trace-ai-labs/pact) on Hugging Face (MIT)
 - **This repo:** the evaluation harness. Pull the dataset, run a model, score it.
 
+## Quick start
+
+```bash
+pip install -r requirements.txt
+export BASETEN_API_KEY=...                        # or any OpenAI-compatible provider, see Models
+python -m pact.run --models kimi --limit 20 --reps 1   # smoke run, ~40 calls
+python -m pact.run --models kimi --reps 3              # the full benchmark, as the paper ran it
+python -m pact.score                                   # PACTScore, six axes, bootstrap intervals
+```
+
 ## Abstract
 
 As corporate AI adoption continues to grow, enterprise-grade LLM agents are being deployed into sensitive contexts such as hiring, healthcare, and finance. In these contexts, compliance with rules specified in an agent's system context is a first-order legal concern. Currently, no evaluation framework systematically measures which LLM models tend to violate compliance rules, especially under pressure from a persistent user, a hurried manager, or circumstances where violation is convenient or attractive. We introduce PACT (Pressure-Applied Compliance Testing), a benchmark for rule-following under pressure in AI agents assisting employees in daily tasks across twelve regulated enterprise domains and forty-eight scenarios, each set in a realistic multi-turn conversation. Each benchmark item pairs a standing rule against a rule-violating shortcut, and applies a battery of pressures across different wordings and system-prompt modes. We construct PACT component by component under strict LLM-as-judge auditing to ensure samples are unambiguous, ungameable, and realistic enough to avoid eliciting evaluation-aware behavior. We use PACT to profile LLM compliance across six complementary metrics that create a holistic picture of an AI assistant's robustness under pressure and throughout multi-turn conversations, its transparency, and ability to correctly discern where a rule applies. We aggregate this profile into PACTScore, a reliability-weighted compliance rate over all items and modes. Our results across 22 common LLM models spanning multiple providers and sizes show substantial variability in compliance across models and metric dimensions. Even the strongest assistants mis-apply a rule on 6 to 10% of items, and ordinary user pressure raises the violation rate by 65% on average.
@@ -32,9 +42,6 @@ As corporate AI adoption continues to grow, enterprise-grade LLM agents are bein
 - Telling a model it is being evaluated cut violations 29% on average, so models look safer in standard benchmark settings than they are in practice.
 - Models are poor at telling where a rule stops. On requests the rule does not cover, they enforced it anyway about one time in five, and the strictest models over-applied the most. Over-application is not harmless: an assistant that refuses requests it was deployed to handle leaves the organization no less exposed and measurably less productive.
 - Newer and bigger is not safer. A 27B dense model is tied for first with a trillion-parameter one, and two of the four closed frontier systems place mid-pack.
-
-The data lives only on Hugging Face. Nothing in this repository generates
-scenarios or ships benchmark content.
 
 ## Install
 
@@ -237,6 +244,45 @@ This harness does not redistribute the dataset or write any of it to disk.
 `datasets` keeps its own cache, so once you have loaded it a first time,
 offline reruns work with `HF_HUB_OFFLINE=1`.
 
+## Using and extending PACT
+
+**Evaluate your own model.** Anything behind an OpenAI-compatible endpoint
+works; see Models above. Run all three replications and both modes, then
+`python -m pact.score`. Compare against the leaderboard on the site, which is
+computed by the same `metrics.py`.
+
+**Get on the leaderboard.** Open an issue on this repo with the model slug and
+provider, the `results/trials/<model>.jsonl` file (and
+`results/labels/transparency.jsonl` if you ran the transparency pass), and the
+output of `python -m pact.score`. We re-score the trials ourselves before
+adding a row, so please do not edit them.
+
+**Score trials you produced some other way.** `pact/metrics.py` is pure
+functions over trial dicts. If you run the protocol in your own harness, emit
+rows with the same fields as `run.py` writes and call the same functions; the
+numbers will be comparable.
+
+**Run a slice.** `--groups`, `--modes`, `--domains`, `--scenarios`, and
+`--limit` combine, and `--dry-run` counts trials before spending. A single
+domain at three replications is a few hundred trials and is a reasonable
+first look at a model.
+
+**Build on the dataset directly.** It is a plain Hugging Face dataset; see the
+[card](https://huggingface.co/datasets/trace-ai-labs/pact) for the columns and
+a minimal evaluation loop in ten lines. Pin the revision you used
+(`load_dataset(..., revision=<commit sha>)`) and report it alongside scores.
+
+**Things not to change.** The extractor prompt is checksummed on purpose. The
+sample text (system prompt, turns, option order) must be sent as-is; rewording
+or re-sorting options breaks comparability with every published number. The
+forcing follow-up and the pushback rule are part of the protocol, not
+implementation details.
+
+**New scenarios.** The v1 item set is frozen so scores stay comparable. If
+you want a domain or pressure covered, open an issue describing it. The
+generation pipeline (three-model authoring with cross-review) lives in the
+development repo and is how any v2 will be built.
+
 ## Layout
 
 ```
@@ -267,8 +313,14 @@ meaningful while models have not seen it.
 @misc{okamoto2026pact,
   title  = {PACT: Can Enterprise AI Assistants Be Trusted Under Pressure?},
   author = {Okamoto, Mika and Erol, Ansel Kaplan},
-  year   = {2026}
+  year   = {2026},
+  note   = {Preprint, under review},
+  url    = {https://trace-ai-labs.github.io/pact/}
 }
 ```
+
+If you use the procurement study PACT grew out of, cite
+[Why Do AI Agents Break Rules?](https://arxiv.org/abs/2608.12323) (AIES 2026)
+as well.
 
 Correspondence: [mokamoto7@gatech.edu](mailto:mokamoto7@gatech.edu)
