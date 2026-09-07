@@ -1,1 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#14181d"/><path d="M14 19H50M32 19V42" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/><circle cx="32" cy="51" r="5" fill="#c8393a"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="TRACE AI Labs">
+  <title>TRACE AI Labs favicon</title>
+  <style>
+    .ground { fill: #12161B; }
+    .glyph  { stroke: #FBFAF7; }
+    @media (prefers-color-scheme: dark) {
+      .ground { fill: #FBFAF7; }
+      .glyph  { stroke: #12161B; }
+    }
+  </style>
+  <rect class="ground" width="64" height="64" rx="14" />
+  <path class="glyph" d="M15 41 H30 V25 H46" fill="none" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="46" cy="25" r="6" fill="#2D6EF5" />
+</svg>
